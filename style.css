@@ -29,6 +29,27 @@ body {
 	width: 100%;
 	background: #fff;
 	color: #404040;
+	font: 18px Arial;
+	text-align: center;
+}
+#timer {
+	padding: 10px;
+	text-align: center;
+}
+#button {
+	display: inline-block;
+	padding: 5px;
+	font-size: 20px;
+	color: #6A8BBD;
+	border: 2px solid #6A8BBD;
+	border-radius: 5px;
+	margin: 0 auto;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+#button:hover {
+	cursor: pointer;
+	background: #ccc;
 }
 #game-wrap {
 	margin: 0 auto;
@@ -49,7 +70,7 @@ body {
 /*.image-wrap-hidden {background: #ccc;}*/
 img, .image-shadow {
 	display: block;
-	width: 96px;
-	height: 96px;
+	width: 70px;
+	height: 70px;
 	border: 2px solid #ccc;
 }
