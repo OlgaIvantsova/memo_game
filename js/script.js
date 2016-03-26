@@ -21,64 +21,50 @@ $(document).ready(function () {
  	loadImages(imagesAmount);//load images from server
  	addImages(); //add images on page
  	
- 	
- 	// console.log(images);	
- 	// alert(1); 
-
  	var compareArr=[];//array for compare opened images
     var timer;
+    var flag = true;
  	$('.image-wrap').click(function(event) {
  		event.preventDefault();
-
- 		if (!timer) { // startTimer
-			var sec = 0;
-			var timerWrap = document.getElementById('timer');
-			timer = setInterval(function() {
-				sec++;
-				timerWrap.innerHTML = sec + 'сек';
-			}, 1000);
-		} 
- 		var imageWrap = $(this);
- 		if(imageWrap.hasClass('image-wrap-active')) return;//only 2 images can be open
- 		imageWrap.addClass('image-wrap-active');
- 		imageWrap.find('.image-shadow').hide();//open image
- 		if($('.image-wrap-active').length==imagesAmount) {
- 			clearInterval(timer);
- 			(function () {
- 				var timerWrap = document.getElementById('timer');
- 				var result = parseInt(timerWrap.innerHTML);
- 				timerWrap.innerHTML = 'Поздравляем! Твой результат составил ' +result+ ' сек';
- 				var button = document.createElement('div');
- 				button.id = "button";
- 				button.innerHTML = "Новая игра"; 
- 				document.body.insertBefore(button, document.body.lastChild);
- 				$('#button').on('click', function () {
-					location.reload();
-		
-			});
- 			})();
- 			// compareArr.length = 0;
- 			// return;
- 		}
- 		compareArr.push(imageWrap);
- 		if (compareArr.length==3)
- 		{			
- 			if (compareArr[0].attr('id') == compareArr[1].attr('id')) {//if pictures match, close them
- 				for (var i = 0; i < compareArr.length-1; i++) {
- 					compareArr[i].removeClass('image-wrap').addClass('image-wrap-hidden');
- 					compareArr[i].find('.image-shadow').css({background:'#ccc'}).show();
- 				};
- 				compareArr[compareArr.length-1].removeClass('image-wrap-active').find('.image-shadow').show();
- 				compareArr.length = 0;
- 			} else {
- 				for (var i = 0; i < compareArr.length; i++) {
- 					compareArr[i].find('.image-shadow').show();
- 					compareArr[i].removeClass('image-wrap-active');
- 				};
- 				compareArr.length = 0; 
+ 		if(flag) {
+ 			if (!timer) { // startTimer
+				var sec = 0;
+				var timerWrap = document.getElementById('timer');
+				timer = setInterval(function() {
+					sec++;
+					timerWrap.innerHTML = sec + 'сек';
+				}, 1000);
+			} 
+ 			var imageWrap = $(this);
+ 			if(imageWrap.hasClass('image-wrap-active')) return;//only 2 images can be open
+ 			imageWrap.addClass('image-wrap-active');
+ 			imageWrap.find('.image-shadow').hide();//open image
+ 			if($('.image-wrap-active').length==imagesAmount) {//show result of the game
+ 				clearInterval(timer);
+ 				showResults();
  			}
+ 			compareArr.push(imageWrap);
+ 			if (compareArr.length==2) {	
+ 				flag = false;//block openining other pictures
+ 				setTimeout(function() {
+ 					if (compareArr[0].attr('id') == compareArr[1].attr('id')) {//if pictures match, close them
+ 					for (var i = 0; i < compareArr.length; i++) {
+ 						compareArr[i].removeClass('image-wrap').addClass('image-wrap-hidden');
+ 						compareArr[i].find('.image-shadow').css({background:'#ccc'}).show();
+ 					};
+ 				// compareArr[compareArr.length-1].removeClass('image-wrap-active').find('.image-shadow').show();
+ 					compareArr.length = 0;
+ 					} else {
+ 						for (var i = 0; i < compareArr.length; i++) {
+ 						compareArr[i].find('.image-shadow').show();
+ 						compareArr[i].removeClass('image-wrap-active');
+ 					};
+ 					compareArr.length = 0; 
+ 					}
+ 				}, 500);		
+ 			}
+ 			flag = true;
  		}
- 		
  	});            
 	
 			
@@ -91,6 +77,20 @@ function startTimer (timer) {
 				sec++;
 				timerWrap.innerHTML = sec + 'сек';
 			}, 1000);
+}
+
+function showResults () {
+	 	var timerWrap = document.getElementById('timer');
+ 		var result = parseInt(timerWrap.innerHTML);
+ 		timerWrap.innerHTML = 'Поздравляем! Твой результат составил ' +result+ ' сек';
+ 		var button = document.createElement('div');
+ 		button.id = "button";
+ 		button.innerHTML = "Новая игра"; 
+ 		document.body.insertBefore(button, document.body.lastChild);
+ 		$('#button').on('click', function () {//start new game
+			location.reload();
+		});
+ 			
 }
 
 function random(min, max) {
