@@ -74,3 +74,4 @@ img, .image-shadow {
 	height: 70px;
 	border: 2px solid #ccc;
 }
+.image-wrap-active .image-shadow {display: none;}
